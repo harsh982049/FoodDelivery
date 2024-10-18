@@ -1,0 +1,258 @@
+[
+  {
+    "_id": "1",
+    "name": "Greek salad",
+    "image": "food_1",
+    "price": 12,
+    "description": "Fresh cucumber, tomatoes, olives, and feta cheese tossed in olive oil and oregano",
+    "category": "Salad"
+  },
+  {
+    "_id": "2",
+    "name": "Veg salad",
+    "image": "food_2",
+    "price": 18,
+    "description": "Colorful mix of seasonal vegetables with a light vinaigrette dressing",
+    "category": "Salad"
+  },
+  {
+    "_id": "3",
+    "name": "Clover Salad",
+    "image": "food_3",
+    "price": 16,
+    "description": "Microgreens and sprouts with a honey-lemon dressing, rich in nutrients",
+    "category": "Salad"
+  },
+  {
+    "_id": "4",
+    "name": "Chicken Salad",
+    "image": "food_4",
+    "price": 24,
+    "description": "Grilled chicken strips over mixed greens with Caesar dressing",
+    "category": "Salad"
+  },
+  {
+    "_id": "5",
+    "name": "Lasagna Rolls",
+    "image": "food_5",
+    "price": 14,
+    "description": "Pasta sheets rolled with ricotta, spinach, and marinara sauce",
+    "category": "Rolls"
+  },
+  {
+    "_id": "6",
+    "name": "Peri Peri Rolls",
+    "image": "food_6",
+    "price": 12,
+    "description": "Spicy African-inspired rolls with a zesty peri-peri sauce",
+    "category": "Rolls"
+  },
+  {
+    "_id": "7",
+    "name": "Chicken Rolls",
+    "image": "food_7",
+    "price": 20,
+    "description": "Tender chicken wrapped in flatbread with fresh vegetables",
+    "category": "Rolls"
+  },
+  {
+    "_id": "8",
+    "name": "Veg Rolls",
+    "image": "food_8",
+    "price": 15,
+    "description": "Assorted vegetables wrapped in a crispy pastry shell",
+    "category": "Rolls"
+  },
+  {
+    "_id": "9",
+    "name": "Ripple Ice Cream",
+    "image": "food_9",
+    "price": 14,
+    "description": "Vanilla ice cream with ribbons of chocolate fudge swirled throughout",
+    "category": "Deserts"
+  },
+  {
+    "_id": "10",
+    "name": "Fruit Ice Cream",
+    "image": "food_10",
+    "price": 22,
+    "description": "Creamy ice cream packed with chunks of fresh seasonal fruits",
+    "category": "Deserts"
+  },
+  {
+    "_id": "11",
+    "name": "Jar Ice Cream",
+    "image": "food_11",
+    "price": 10,
+    "description": "Layered ice cream dessert served in a mason jar with cookies and syrup",
+    "category": "Deserts"
+  },
+  {
+    "_id": "12",
+    "name": "Vanilla Ice Cream",
+    "image": "food_12",
+    "price": 12,
+    "description": "Classic creamy vanilla bean ice cream, rich and smooth",
+    "category": "Deserts"
+  },
+  {
+    "_id": "13",
+    "name": "Chicken Sandwich",
+    "image": "food_13",
+    "price": 12,
+    "description": "Grilled chicken breast with lettuce, tomato, and mayonnaise",
+    "category": "Sandwich"
+  },
+  {
+    "_id": "14",
+    "name": "Vegan Sandwich",
+    "image": "food_14",
+    "price": 18,
+    "description": "Plant-based patty with avocado, sprouts, and vegan cheese",
+    "category": "Sandwich"
+  },
+  {
+    "_id": "15",
+    "name": "Grilled Sandwich",
+    "image": "food_15",
+    "price": 16,
+    "description": "Melted cheese and vegetables between crispy toasted bread",
+    "category": "Sandwich"
+  },
+  {
+    "_id": "16",
+    "name": "Bread Sandwich",
+    "image": "food_16",
+    "price": 24,
+    "description": "Triple-decker sandwich with assorted fillings on artisanal bread",
+    "category": "Sandwich"
+  },
+  {
+    "_id": "17",
+    "name": "Cup Cake",
+    "image": "food_17",
+    "price": 14,
+    "description": "Moist vanilla cupcake topped with buttercream frosting",
+    "category": "Cake"
+  },
+  {
+    "_id": "18",
+    "name": "Vegan Cake",
+    "image": "food_18",
+    "price": 12,
+    "description": "Egg-free chocolate cake made with plant-based ingredients",
+    "category": "Cake"
+  },
+  {
+    "_id": "19",
+    "name": "Butterscotch Cake",
+    "image": "food_19",
+    "price": 20,
+    "description": "Rich cake layered with butterscotch sauce and caramel buttercream",
+    "category": "Cake"
+  },
+  {
+    "_id": "20",
+    "name": "Sliced Cake",
+    "image": "food_20",
+    "price": 15,
+    "description": "Individual slices of assorted premium cakes",
+    "category": "Cake"
+  },
+  {
+    "_id": "21",
+    "name": "Garlic Mushroom",
+    "image": "food_21",
+    "price": 14,
+    "description": "Sautéed mushrooms in garlic butter with fresh herbs",
+    "category": "Pure Veg"
+  },
+  {
+    "_id": "22",
+    "name": "Fried Cauliflower",
+    "image": "food_22",
+    "price": 22,
+    "description": "Crispy battered cauliflower florets with spicy dipping sauce",
+    "category": "Pure Veg"
+  },
+  {
+    "_id": "23",
+    "name": "Mix Veg Pulao",
+    "image": "food_23",
+    "price": 10,
+    "description": "Fragrant rice cooked with mixed vegetables and aromatic spices",
+    "category": "Pure Veg"
+  },
+  {
+    "_id": "24",
+    "name": "Rice Zucchini",
+    "image": "food_24",
+    "price": 12,
+    "description": "Spiralized zucchini noodles with seasoned rice and vegetables",
+    "category": "Pure Veg"
+  },
+  {
+    "_id": "25",
+    "name": "Cheese Pasta",
+    "image": "food_25",
+    "price": 12,
+    "description": "Creamy mac and cheese made with a blend of premium cheeses",
+    "category": "Pasta"
+  },
+  {
+    "_id": "26",
+    "name": "Tomato Pasta",
+    "image": "food_26",
+    "price": 18,
+    "description": "Al dente pasta in a rich tomato sauce with fresh basil",
+    "category": "Pasta"
+  },
+  {
+    "_id": "27",
+    "name": "Creamy Pasta",
+    "image": "food_27",
+    "price": 16,
+    "description": "Fettuccine in a velvety Alfredo sauce with parmesan",
+    "category": "Pasta"
+  },
+  {
+    "_id": "28",
+    "name": "Chicken Pasta",
+    "image": "food_28",
+    "price": 24,
+    "description": "Grilled chicken and penne in a creamy tomato sauce",
+    "category": "Pasta"
+  },
+  {
+    "_id": "29",
+    "name": "Butter Noodles",
+    "image": "food_29",
+    "price": 14,
+    "description": "Simple and comforting buttered noodles with parmesan",
+    "category": "Noodles"
+  },
+  {
+    "_id": "30",
+    "name": "Veg Noodles",
+    "image": "food_30",
+    "price": 12,
+    "description": "Stir-fried noodles with colorful vegetables in soy sauce",
+    "category": "Noodles"
+  },
+  {
+    "_id": "31",
+    "name": "Somen Noodles",
+    "image": "food_31",
+    "price": 20,
+    "description": "Thin Japanese wheat noodles served cold with dipping sauce",
+    "category": "Noodles"
+  },
+  {
+    "_id": "32",
+    "name": "Cooked Noodles",
+    "image": "food_32",
+    "price": 15,
+    "description": "Classic egg noodles tossed in a savory Asian-inspired sauce",
+    "category": "Noodles"
+  }
+]
