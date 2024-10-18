@@ -1,58 +1,3 @@
-// const Menu = require('../model/menuModel');
-// const Cart = require('../model/cartModel');
-
-// const getFoodMenu = async (req, res, next) => {
-//     try {
-//         const menu = await Menu.find({}).lean();
-//         if (!menu || menu.length === 0) {
-//             return res.json({ status: false, msg: 'Menu is currently empty.' });
-//         }
-//         return res.json({ status: true, menu });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// const getCartItems = async (req, res, next) => {
-//     try {
-//         const cart = await Cart.find({}).lean();
-//         return res.json({ status: true, cart });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// const updateCartItem = async (req, res, next) => {
-//     try {
-//         const { itemId, action } = req.body;
-        
-//         let cartItem = await Cart.findOne({ _id: itemId });
-        
-//         if (!cartItem && action === 'increase') {
-//             cartItem = await Cart.create({ _id: itemId, quantity: 1 });
-//         } else if (cartItem) {
-//             if (action === 'increase') {
-//                 cartItem.quantity += 1;
-//             } else if (action === 'decrease') {
-//                 cartItem.quantity = Math.max(cartItem.quantity - 1, 0);
-//             }
-            
-//             if (cartItem.quantity === 0) {
-//                 await Cart.findOneAndDelete({ _id: itemId });
-//             } else {
-//                 await cartItem.save();
-//             }
-//         }
-
-//         return res.json({ status: true, cartItem });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// module.exports = { getFoodMenu, getCartItems, updateCartItem };
-
-
 const Menu = require('../model/menuModel');
 const Cart = require('../model/cartModel');
 
@@ -155,20 +100,6 @@ const increaseCartItem = async (req, res, next) => {
             );
         }
         return res.json({status: true, cartItem});
-
-
-        // if(!cartItem)
-        // {
-        //     cartItem = await Cart.create({_id: id, quantity: req.body.quantity});
-        //     // return res.json({status: false,  msg: 'Could not update cart right now. Please try again.'});
-        // }
-        // else
-        // {
-        //     cartItem = await Cart.findOneAndUpdate({_id: id}, req.body); 
-        // }
-        // // console.log(cartItem);
-        // // console.log(foodItems);
-        // return res.json({status: true, cartItem});
     }
     catch(error)
     {
@@ -206,26 +137,6 @@ const decreaseCartItem = async (req, res, next) => {
             }
         }
         return res.json({status: true, cartItem});
-
-
-        // if(!cartItem)
-        // {
-        //     // cartItem = await Cart.create({_id: id, quantity: req.body.quantity});
-        //     return res.json({status: false,  msg: 'Could not update cart right now. Please try again.'});
-        // }
-        // else
-        // {
-        //     if(cartItem.quantity == 1)
-        //     {
-        //         cartItem = await Cart.findOneAndDelete({_id: id});
-        //     }
-        //     else
-        //     {
-        //         cartItem = await Cart.findOneAndUpdate({_id: id}, req.body); 
-        //     }    
-        // }
-        // // console.log(foodItems);
-        // return res.json({status: true, cartItem});
     }
     catch(error)
     {

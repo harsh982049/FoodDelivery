@@ -177,35 +177,8 @@ function Cart()
                             />
                             <PromoButton onClick={handlePromoCodeSubmit}>Submit</PromoButton>
                         </div>
-                        {/* <form onSubmit={handlePromoCodeSubmit}>
-                            <label>If you have a promo code, Enter it here</label>
-                            <PromoInput
-                                type="text"
-                                value={promoCode}
-                                onChange={(e) => setPromoCode(e.target.value)}
-                                placeholder="promo code"
-                            />
-                            <PromoButton type="submit">Submit</PromoButton>
-                        </form> */}
                     </PromoSection>
                 </TotalsAndPromo>
-
-                {/* <CartTotals>
-                    <h2>Cart Totals</h2>
-                    <TotalRow>
-                        <span>Subtotal:</span>
-                        <span>${subtotal.toFixed(2)}</span>
-                    </TotalRow>
-                    <TotalRow>
-                        <span>Shipping:</span>
-                        <span>${shippingCost.toFixed(2)}</span>
-                    </TotalRow>
-                    <TotalRow total>
-                        <span>Total:</span>
-                        <span>${(subtotal + shippingCost).toFixed(2)}</span>
-                    </TotalRow>
-                    <CheckoutButton>Proceed to Checkout</CheckoutButton>
-                </CartTotals> */}
             </Container>
             <ToastContainer/>
         </>

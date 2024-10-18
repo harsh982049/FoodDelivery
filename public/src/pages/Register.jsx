@@ -238,38 +238,6 @@ const Container = styled.div`
         text-align: left;
         /* margin-top: 0.25rem; */
     }
-
-    /* .error
-    {
-        font-size: 0.9rem;
-    } */
-
-    /* button:disabled {
-    opacity: 0.35;
-    } */
-    
-    /* form
-    {
-        height: 30vh;
-        background-color: #4e4e4e;
-        display: flex;
-        flex-direction: column;
-        padding: 1rem;
-        gap: 0.7rem;
-        width: 30%;
-        min-width: 20rem;
-        input
-        {
-            padding: 0.6rem;
-            margin-bottom: 0.3rem;
-            border: none;
-            &:focus
-            {
-                outline: none;
-                border-color: #4299e1;
-            }
-        }
-    } */
 `;
 
 export default Register;
