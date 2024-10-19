@@ -29,7 +29,6 @@ function HomePage()
     const [menu, setMenu] = useState([]); // Food menu items
     const [user, setUser] = useState();
     const [selectedCuisine, setSelectedCuisine] = useState('');
-    // console.log('Hi');
     
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
@@ -37,7 +36,6 @@ function HomePage()
         {
             navigate('/login');
         }
-        // console.log("This was ran first");
         setUser(foodUser);
         const fetchMenu = async () => {
             try
@@ -63,30 +61,15 @@ function HomePage()
     {
         try
         {
-            // console.log(foodUser);
             const {userId} = foodUser;
-            // console.log(`${getCartItems}/${userId}`);
             const {data} = await axios(`${getCartItems}/${userId}`);
             if(data.status)
             {
                 const {cart} = data;
-                // console.log(cart);
-                const {data: {length}} = await axios(getMenuLength);
-                // console.log(length);
+                // const {data: {length}} = await axios(getMenuLength);
                 const arr = [];
                 cart.forEach(cartItem => arr.push(cartItem));
-                // for(let i = 0; i < length; ++i)
-                // {
-                //     arr.push({
-                //         _id: i+1,
-                //         quantity: 0
-                //     });
-                //     if(index < cart.length && Number(cart[index]._id) === i+1)
-                //     {
-                //         arr[i] = {...arr[i], quantity: cart[index++].quantity};
-                //     }
-                // }
-                // console.log(arr);
+
                 setItemsList(arr);
             }
             else
@@ -100,27 +83,18 @@ function HomePage()
         }
     }
 
-    // Fetch food menu from the backend
-    // useEffect(() => {
-        
-    // }, []);
-
     // Function to increase quantity of an item
     async function increaseQuantity(_id)
     {
         try
         {            
             const {userId} = user;
-            // console.log(`${increaseCartItem}/${_id}/${userId}`);
             const {quantity} = itemsList.find(item => item._id === _id) | 0;
             
             const {data} = await axios.patch(`${increaseCartItem}/${_id}/${userId}`, {quantity: quantity});
-            // console.log(data);
             if(data.status)
             {
-                // const updatedItemsList = itemsList.map(item => item._id === _id ? {...item, quantity: item.quantity + 1} : item);
                 initializeList(user);
-                // setItemsList(updatedItemsList);
             }
             else
             {
@@ -143,9 +117,7 @@ function HomePage()
             const {data} = await axios.patch(`${decreaseCartItem}/${_id}/${userId}`, {quantity: quantity});
             if(data.status)
             {
-                // const updatedItemsList = itemsList.map(item =>item._id === _id ? { ...item, quantity: item.quantity - 1 } : item);
                 initializeList(user);
-                // setItemsList(updatedItemsList);
             }
             else
             {
@@ -159,7 +131,6 @@ function HomePage()
     }
 
     const fetchCuisineItems = async (cuisine) => {
-        // console.log(cuisine);
         if(selectedCuisine === cuisine) cuisine = '';
         const {data} = await axios(`${getMenu}?cuisine=${cuisine}`);
         if(data.status)
@@ -183,9 +154,6 @@ function HomePage()
 
     // Display food menu with Add/Increase/Decrease buttons
     const menuContainer = menu.map((item) => {
-        // let _id = Number(item._id);
-        // const cartItem = itemsList.find(i => i._id === _id); // Find item in cart
-
         const {_id} = item;
         const cartItem = itemsList.find(i => i._id === _id);
 
@@ -286,7 +254,6 @@ const StyledCard = styled(Card)`
         .card-subtitle
         {
             margin-bottom: 1rem;
-            /* margin-top: auto; */
             font-size: 1.2rem;
             font-weight: bold;
             color: #ff6b6b;
@@ -294,9 +261,6 @@ const StyledCard = styled(Card)`
         .addToCart
         {
             padding: 0.5rem;
-            /* padding-left: auto; */
-            /* margin: 0 auto 0 auto; */
-            /* margin-left: auto; */
             width: 60%;
             cursor: pointer;
         }
@@ -306,17 +270,12 @@ const StyledCard = styled(Card)`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        /* margin-top: auto; */
         button
         {
             height: 2rem;
             width: 2rem;
             border-radius: 1rem;
             cursor: pointer;
-            /* .plus
-            {
-                color: #fd7575;
-            } */
         }
     }
 `;
@@ -326,12 +285,9 @@ const Container = styled.div`
     width: 80vw;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* margin-left: 9rem; */
+
     margin: 0 10vw 0 10vw;
-    /* background-color: pink; */
-    /* overflow: auto; */
+
     .top-content
     {
         color: white;
@@ -379,7 +335,6 @@ const Container = styled.div`
             position: absolute;
             left: 5rem;
             top: 25rem;
-            /* padding: 1rem; */
             padding: 1rem 2rem 1rem 2rem;
             border-radius: 5rem;
             border: none;
@@ -392,7 +347,6 @@ const Container = styled.div`
     }
     .cuisine-nav
     {
-        /* background-color: rebeccapurple; */
         display: flex;
         gap: 1rem;
         margin-top: 2rem;

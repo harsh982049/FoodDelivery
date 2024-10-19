@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Toast notification options
 const toastOptions = {
     position: "bottom-right",
     autoClose: 3000,
@@ -21,7 +20,7 @@ const useIndexedDB = (dbName, storeName) => {
         openRequest.onupgradeneeded = () => {
             const db = openRequest.result;
             if (!db.objectStoreNames.contains(storeName)) {
-                db.createObjectStore(storeName, {keyPath: 'id'});
+                db.createObjectStore(storeName, {keyPath: 'userId'});
             }
         };
     }, [dbName, storeName]);
@@ -32,17 +31,17 @@ const useIndexedDB = (dbName, storeName) => {
             const db = openRequest.result;
             const transaction = db.transaction(storeName, 'readwrite');
             const store = transaction.objectStore(storeName);
-            store.put(data);
+            store.put(data); // Save user data using userId as key
         };
     };
 
-    const getFromDB = (id, callback) => {
+    const getFromDB = (userId, callback) => {
         const openRequest = indexedDB.open(dbName, 1);
         openRequest.onsuccess = () => {
             const db = openRequest.result;
             const transaction = db.transaction(storeName, 'readonly');
             const store = transaction.objectStore(storeName);
-            const request = store.get(id);
+            const request = store.get(userId); // Retrieve data using userId
             request.onsuccess = () => {
                 callback(request.result);
             };
@@ -55,7 +54,7 @@ const useIndexedDB = (dbName, storeName) => {
 function Order() {
     const navigate = useNavigate();
     const {saveToDB, getFromDB} = useIndexedDB('deliveryDB', 'deliveryInfo');
-    // console.log(getFromDB());
+    const [userId, setUserId] = useState(JSON.parse(localStorage.getItem('food-app-user')).userId);
 
     // State for user delivery info
     const [userInfo, setUserInfo] = useState({
@@ -85,13 +84,13 @@ function Order() {
 
     // On component mount, fetch delivery info if it exists
     useEffect(() => {
-        getFromDB('deliveryInfo', (data) => {
+        getFromDB(userId, (data) => {
             if(data)
             {
                 setUserInfo(data);
             }
         });
-    }, []);
+    }, [userId]);
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -102,8 +101,7 @@ function Order() {
         event.preventDefault();
 
         // Save user information to IndexedDB
-        saveToDB({...userInfo, id: 'deliveryInfo'});
-
+        saveToDB({...userInfo, userId}); // Add userId to the data
         toast.success('Delivery information saved!', toastOptions);
         navigate('/cart');
     };
@@ -225,7 +223,6 @@ const Container = styled.div`
     width: 80vw;
     flex-direction: column;
     margin: 0 10vw 0 10vw;
-    /* padding: 2rem; */
 `;
 
 const ContentWrapper = styled.div`
@@ -249,10 +246,8 @@ const FormSection = styled.div`
 `;
 
 const CartSection = styled.div`
-    /* height: auto; */
     width: 40%;
     padding: 1rem;
-    /* background-color: #f8f8f8; */
     border-radius: 5px;
     h2
     {

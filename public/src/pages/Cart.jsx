@@ -31,11 +31,6 @@ function Cart()
     const [promoCodeValid, setPromoCodeValid] = useState(false);
     const [discount, setDiscount] = useState(0);
     const [user, setUser] = useState();
-    // const [discount, setDiscount] = useState(() => {
-    //     const discount = sessionStorage.getItem('discount');
-    //     if(discount != null) setPromoCodeValid(true);
-    //     return discount !== null ? JSON.parse(discount) : 0;
-    // });
 
     const fetchCart = async (userId) => {
         const {data: {status: cartStatus, cart, msg: cartMsg}} = await axios(`${getCartItems}/${userId}`);
@@ -44,22 +39,13 @@ function Cart()
         else if(!menuStatus) toast.error(`${menuMsg}`, toastOptions);
         else
         {
-            console.log(menu, cart);
+            // console.log(menu, cart);
             const arr = [];
             cart.forEach((cartItem) => {
                 const menuItem = menu.find(i => i._id === cartItem._id);
                 arr.push({...menuItem, ...cartItem});
             });
 
-            // let index = 0;
-            // menu.forEach((item) => {
-            //     if(index < cart.length && item._id === cart[index]._id)
-            //     {
-            //         arr.push({...item, quantity: cart[index].quantity});
-            //         ++index;
-            //     }
-            // });
-            // console.log(arr);
             setCart(arr);
         }
     };
@@ -194,10 +180,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0 10vw 0 10vw;
-    /* .totals-and-promo
-    {
-        display: flex;
-    } */
 `;
 
 const CartTable = styled.table`
@@ -248,21 +230,18 @@ const CartTotals = styled.div`
 const TotalRow = styled.div`
     display: flex;
     justify-content: space-between;
-    /* margin-bottom: 0.5rem; */
     font-weight: ${props => props.total ? 'bold' : 'normal'};
     font-size: ${props => props.total ? '1.2rem' : '1rem'};
 `;
 
 const CheckoutButton = styled.button`
     background-color: #fc5c23;
-    /* background-color: #4CAF50; */
     color: white;
     padding: 0.7rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
-    /* margin-top: 1rem; */
     width: 50%;
 
     &:hover
@@ -280,20 +259,15 @@ const TotalsAndPromo = styled.div`
 const PromoSection = styled.div`
     margin-top: 2rem;
     padding: 1rem;
-    /* background-color: #f8f8f8; */
     border-radius: 5px;
     width: 30vw;
-    /* background-color: #f8f8f8; */
-    /* padding: 1rem; */
-    /* border-radius: 5px; */
+
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    /* justify-content: space-between; */
     .input-and-submit
     {
         display: flex;
-        /* gap: 0; */
     }
 `;
 
