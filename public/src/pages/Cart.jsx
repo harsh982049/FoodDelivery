@@ -4,7 +4,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 import styled from "styled-components";
 import {getMenu, getCartItems, removeCartItem} from '../utils/APIroutes';
-import {foodImages} from '../utils/frontend_assets/assets';
+// import {foodImages} from '../utils/frontend_assets/assets';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -119,7 +119,7 @@ function Cart()
                         {cart.map((item) => (
                             <tr key={item._id}>
                                 <td>
-                                    <ItemImage src={foodImages.get(item.image)} alt={item.name}/>
+                                    <ItemImage src={item.image} alt={item.name}/>
                                 </td>
                                 <td>{item.name}</td>
                                 <td>${item.price}</td>

@@ -58,6 +58,10 @@ function Login()
     const handleRegister = () => {
         navigate('/register');
     };
+
+    const handleAdminLogin = () => {
+        navigate('/adminLogin');
+    };
     
     return (
         <>
@@ -88,6 +92,7 @@ function Login()
                     <div className='buttons'>
                         <button disabled={isSubmitting} type="submit" className='submit-btn'>Submit</button>
                         <button className='register-btn' onClick={handleRegister}>New User</button>
+                        <button className='register-btn' onClick={handleAdminLogin}>Admin Login</button>
                     </div>
                 </form>
             </Container>

@@ -1,4 +1,5 @@
 const User = require('../model/userModel');
+const Admin = require('../model/adminModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -129,4 +130,78 @@ const getProtectedData = (req, res) => {
     return res.json({ status: true, msg: 'Protected data', user: req.user });
 };
 
-module.exports = {login, register, digestAuth, tokenAuth, getProtectedData};
+const adminLogin = async (req, res, next) => {
+    try
+    {
+        const {adminName, password} = req.body;
+        // console.log(req.body);
+        const admin = await Admin.findOne({adminName});
+        if(!admin)
+        {
+            return res.json({status: false,  msg: 'Admin with this name does not exist'});
+        }
+        // const user = await User.findOne({username});
+        const checkPassword = await bcrypt.compare(password, admin.password);
+        if(!checkPassword)
+        {
+            return res.json({status: false,  msg: 'Password is invalid'});
+        }
+        const adminObject = {
+            username: admin.adminName,
+            email: admin.email,
+            adminId: admin._id
+        };
+        // delete user.password;
+        return res.json({status: true, admin: adminObject});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+const adminRegister = async (req, res, next) => {
+    try
+    {
+        const {adminName, email, password} = req.body;
+        // console.log(adminName, email, password);
+        const checkAdminName = await Admin.findOne({adminName});
+        if(checkAdminName)
+        {
+            return res.json({status: false, msg: 'Admin with this name is already used'});
+        }
+        const checkEmail = await Admin.findOne({email});
+        if(checkEmail)
+        {
+            return res.json({status: false, msg: 'Email is already used'});
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // const token = jwt.sign(
+        //     {
+        //         adminId: admin._id,
+        //         username: admin.adminName,
+        //         email: admin.email
+        //     },
+        //     JWT_SECRET,
+        //     { expiresIn: '1h' } // Token expires in 1 hour
+        // );
+
+        const admin = await Admin.create({adminName, email, password: hashedPassword});
+        // delete user.password;
+        const adminObject = {
+            adminName: admin.adminName,
+            email: admin.email,
+            adminId: admin._id,
+            // token
+        };
+        // console.log(userObject);
+        return res.json({status: true, admin: adminObject});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+module.exports = {login, register, digestAuth, tokenAuth, getProtectedData, adminLogin, adminRegister};

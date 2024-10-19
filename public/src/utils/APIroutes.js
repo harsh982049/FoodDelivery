@@ -1,7 +1,9 @@
 const host = "http://localhost:5000";
 
 export const loginRoute = `${host}/api/auth/login`;
+export const adminLoginRoute = `${host}/api/auth/adminLogin`;
 export const registerRoute = `${host}/api/auth/register`;
+export const adminRegisterRoute = `${host}/api/auth/adminRegister`;
 export const getMenu = `${host}/api/restaurant/getMenu`;
 export const getCartItems = `${host}/api/restaurant/getCartItems`;
 export const getMenuLength = `${host}/api/restaurant/getMenuLength`;

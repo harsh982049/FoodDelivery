@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import BackgroundFood from "../utils/frontend_assets/header_img.png";
-import {menu_list, foodImages} from '../utils/frontend_assets/assets';
+import {menu_list} from '../utils/frontend_assets/assets';
 import {getMenu, getMenuLength, getCartItems, increaseCartItem, decreaseCartItem} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,25 +30,6 @@ function HomePage()
     const [user, setUser] = useState();
     const [selectedCuisine, setSelectedCuisine] = useState('');
 
-    // async function convertToBase64(file) {
-    //     const fileReader = new FileReader();
-    //     return new Promise((resolve, reject) => {
-    //         fileReader.onloadend = () => resolve(fileReader.result);
-    //         fileReader.onerror = (error) => reject(error);
-    //         fileReader.readAsDataURL(file);  // This works with Blob
-    //     });
-    // }
-
-    // const downloadTextFile = (base64Array) => {
-    //     const element = document.createElement("a");
-    //     const file = new Blob([JSON.stringify(base64Array, null, 2)], {type: 'text/plain'}); // Create a Blob with text content
-    //     element.href = URL.createObjectURL(file);
-    //     element.download = "base64Images.txt";  // File name
-    //     document.body.appendChild(element);  // Append the element to the DOM
-    //     element.click();  // Programmatically click the link to trigger the download
-    //     document.body.removeChild(element);  // Remove the element after downloading
-    // };
-    
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
         if(!foodUser)
@@ -63,28 +44,6 @@ function HomePage()
                 const {data} = await axios(getMenu);
                 if(data.status)
                 {
-                    // const {menu} = data;
-                    // let i = 0;
-                    // const arr = [];
-                    // try {
-                    //     // Fetch and convert each image
-                    //     for (const imageUrl of importedImages) {
-                    //         const response = await fetch(imageUrl);
-                    //         const blob = await response.blob(); // Get the image as a Blob
-                    //         const base64 = await convertToBase64(blob); // Convert Blob to Base64
-                    //         arr.push({
-                    //             name: menu[i].name,
-                    //             image: base64,
-                    //             price: menu[i].price,
-                    //             description: menu[i].description,
-                    //             category: menu[i++].category
-                    //         });
-                    //     }
-                    //     // console.log("Base64 Images:", arr);  // Now this contains the base64 strings of all images
-                    //     downloadTextFile(arr);
-                    // } catch (error) {
-                    //     toast.error("Failed to convert images to base64", toastOptions);
-                    // }
                     setMenu(data.menu);
                 }
                 else toast.error(`${data.msg}`, toastOptions);
@@ -95,24 +54,6 @@ function HomePage()
             }
         };
         fetchMenu();
-
-        // const fetchAndConvertImagesToBase64 = async () => {
-        //     const arr = [];
-        //     try {
-        //         // Fetch and convert each image
-        //         for (const imageUrl of importedImages) {
-        //             const response = await fetch(imageUrl);
-        //             const blob = await response.blob(); // Get the image as a Blob
-        //             const base64 = await convertToBase64(blob); // Convert Blob to Base64
-        //             arr.push(base64);
-        //         }
-        //         // console.log("Base64 Images:", arr);  // Now this contains the base64 strings of all images
-        //         downloadTextFile(arr);
-        //     } catch (error) {
-        //         toast.error("Failed to convert images to base64", toastOptions);
-        //     }
-        // };
-        // fetchAndConvertImagesToBase64();
 
         initializeList(foodUser);
         Cookies.set("username", foodUser.username, {expires: 7}); // Expires in 7 days

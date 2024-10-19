@@ -67,63 +67,43 @@ export const importedImages = [
     food_25, food_26, food_27, food_28, food_29, food_30, food_31, food_32
   ];
 
-//   export const images = (() => {
-//     const arr = [];
-//     async function convertToBase64(file) {
-//         const fileReader = new FileReader();
-//         return new Promise((resolve, reject) => {
-//           fileReader.onload = () => resolve(fileReader.result);
-//           fileReader.onerror = (error) => reject(error);
-//           fileReader.readAsDataURL(file);
-//         });
-//       }
-
-//     importedImages.forEach((image) => {
-//         const base64 = convertToBase64(image);
-//         arr.push(base64);
-//     });
-//     return arr;
-//   })();
-
-//   export default images;
-
-export const foodImages = (() => {
-    const images = new Map([
-        ["food_1", food_1],
-        ["food_2", food_2],
-        ["food_3", food_3],
-        ["food_4", food_4],
-        ["food_5", food_5],
-        ["food_6", food_6],
-        ["food_7", food_7],
-        ["food_8", food_8],
-        ["food_9", food_9],
-        ["food_10", food_10],
-        ["food_11", food_11],
-        ["food_12", food_12],
-        ["food_13", food_13],
-        ["food_14", food_14],
-        ["food_15", food_15],
-        ["food_16", food_16],
-        ["food_17", food_17],
-        ["food_18", food_18],
-        ["food_19", food_19],
-        ["food_20", food_20],
-        ["food_21", food_21],
-        ["food_22", food_22],
-        ["food_23", food_23],
-        ["food_24", food_24],
-        ["food_25", food_25],
-        ["food_26", food_26],
-        ["food_27", food_27],
-        ["food_28", food_28],
-        ["food_29", food_29],
-        ["food_30", food_30],
-        ["food_31", food_31],
-        ["food_32", food_32]
-    ]);
-    return images;
-})();
+// export const foodImages = (() => {
+//     const images = new Map([
+//         ["food_1", food_1],
+//         ["food_2", food_2],
+//         ["food_3", food_3],
+//         ["food_4", food_4],
+//         ["food_5", food_5],
+//         ["food_6", food_6],
+//         ["food_7", food_7],
+//         ["food_8", food_8],
+//         ["food_9", food_9],
+//         ["food_10", food_10],
+//         ["food_11", food_11],
+//         ["food_12", food_12],
+//         ["food_13", food_13],
+//         ["food_14", food_14],
+//         ["food_15", food_15],
+//         ["food_16", food_16],
+//         ["food_17", food_17],
+//         ["food_18", food_18],
+//         ["food_19", food_19],
+//         ["food_20", food_20],
+//         ["food_21", food_21],
+//         ["food_22", food_22],
+//         ["food_23", food_23],
+//         ["food_24", food_24],
+//         ["food_25", food_25],
+//         ["food_26", food_26],
+//         ["food_27", food_27],
+//         ["food_28", food_28],
+//         ["food_29", food_29],
+//         ["food_30", food_30],
+//         ["food_31", food_31],
+//         ["food_32", food_32]
+//     ]);
+//     return images;
+// })();
 
 export const assets = {
     logo,
