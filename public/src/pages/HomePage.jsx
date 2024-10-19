@@ -28,6 +28,7 @@ function HomePage()
     const [itemsList, setItemsList] = useState([]); // Cart items with quantities
     const [menu, setMenu] = useState([]); // Food menu items
     const [user, setUser] = useState();
+    const [selectedCuisine, setSelectedCuisine] = useState('');
     // console.log('Hi');
     
     useEffect(() => {
@@ -42,14 +43,8 @@ function HomePage()
             try
             {
                 const {data} = await axios(getMenu);
-                if(data.status)
-                {
-                    setMenu(data.menu);
-                }
-                else
-                {
-                    toast.error(`${data.msg}`, toastOptions);
-                }
+                if(data.status) setMenu(data.menu);
+                else toast.error(`${data.msg}`, toastOptions);
             }
             catch(error)
             {
@@ -58,14 +53,9 @@ function HomePage()
         };
         fetchMenu();
         initializeList(foodUser);
-        // console.log(itemsList);
-        // const user = JSON.parse(localStorage.getItem("food-app-user"));
-        // if(user)
-        // {
-            Cookies.set("username", foodUser.username, {expires: 7}); // Expires in 7 days
-            Cookies.set("email", foodUser.email, {expires: 7});
-            Cookies.set("userId", foodUser.userId, {expires: 7});
-        // }
+        Cookies.set("username", foodUser.username, {expires: 7}); // Expires in 7 days
+        Cookies.set("email", foodUser.email, {expires: 7});
+        Cookies.set("userId", foodUser.userId, {expires: 7});
     }, [navigate]);
 
     // Fetch the cart items and initialize state
@@ -83,19 +73,19 @@ function HomePage()
                 // console.log(cart);
                 const {data: {length}} = await axios(getMenuLength);
                 // console.log(length);
-                let index = 0;
                 const arr = [];
-                for(let i = 0; i < length; ++i)
-                {
-                    arr.push({
-                        _id: i+1,
-                        quantity: 0
-                    });
-                    if(index < cart.length && Number(cart[index]._id) === i+1)
-                    {
-                        arr[i] = {...arr[i], quantity: cart[index++].quantity};
-                    }
-                }
+                cart.forEach(cartItem => arr.push(cartItem));
+                // for(let i = 0; i < length; ++i)
+                // {
+                //     arr.push({
+                //         _id: i+1,
+                //         quantity: 0
+                //     });
+                //     if(index < cart.length && Number(cart[index]._id) === i+1)
+                //     {
+                //         arr[i] = {...arr[i], quantity: cart[index++].quantity};
+                //     }
+                // }
                 // console.log(arr);
                 setItemsList(arr);
             }
@@ -122,7 +112,9 @@ function HomePage()
         {            
             const {userId} = user;
             // console.log(`${increaseCartItem}/${_id}/${userId}`);
-            const {data} = await axios.patch(`${increaseCartItem}/${_id}/${userId}`, {quantity: itemsList[_id - 1].quantity});
+            const {quantity} = itemsList.find(item => item._id === _id) | 0;
+            
+            const {data} = await axios.patch(`${increaseCartItem}/${_id}/${userId}`, {quantity: quantity});
             // console.log(data);
             if(data.status)
             {
@@ -147,7 +139,8 @@ function HomePage()
         try
         {
             const {userId} = user;
-            const {data} = await axios.patch(`${decreaseCartItem}/${_id}/${userId}`, {quantity: itemsList[_id - 1].quantity});
+            const {quantity} = itemsList.find(item => item._id === _id) | 0;
+            const {data} = await axios.patch(`${decreaseCartItem}/${_id}/${userId}`, {quantity: quantity});
             if(data.status)
             {
                 // const updatedItemsList = itemsList.map(item =>item._id === _id ? { ...item, quantity: item.quantity - 1 } : item);
@@ -165,12 +158,24 @@ function HomePage()
         }
     }
 
+    const fetchCuisineItems = async (cuisine) => {
+        // console.log(cuisine);
+        if(selectedCuisine === cuisine) cuisine = '';
+        const {data} = await axios(`${getMenu}?cuisine=${cuisine}`);
+        if(data.status)
+        {
+            setMenu(data.menu);
+            setSelectedCuisine(cuisine);
+        }
+        else toast.error(`${data.msg}`, toastOptions);
+    };
+
     // Display each cuisine type
     function displayCuisine()
     {
         return menu_list.map((cuisine) => (
-            <div className='cuisine-div' key={cuisine.menu_name}>
-                <img src={cuisine.menu_image} alt={cuisine.menu_name} />
+            <div className='cuisine-div' key={cuisine.menu_name} onClick={() => fetchCuisineItems(cuisine.menu_name)}>
+                <img className={`${selectedCuisine === cuisine.menu_name ? "selected" : ""}`} src={cuisine.menu_image} alt={cuisine.menu_name} />
                 <p>{cuisine.menu_name}</p>
             </div>
         ));
@@ -178,8 +183,11 @@ function HomePage()
 
     // Display food menu with Add/Increase/Decrease buttons
     const menuContainer = menu.map((item) => {
-        let _id = Number(item._id);
-        const cartItem = itemsList.find(i => i._id === _id); // Find item in cart
+        // let _id = Number(item._id);
+        // const cartItem = itemsList.find(i => i._id === _id); // Find item in cart
+
+        const {_id} = item;
+        const cartItem = itemsList.find(i => i._id === _id);
 
         return (
             <StyledCard key={_id}>
@@ -408,6 +416,10 @@ const Container = styled.div`
                 {
                     transform: scale(1.1); /* Scale up the image slightly */
                     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+                }
+                .selected
+                {
+                    border: 1px solid black;
                 }
             }
         }

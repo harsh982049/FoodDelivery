@@ -30,45 +30,48 @@ function Cart()
     });
     const [promoCodeValid, setPromoCodeValid] = useState(false);
     const [discount, setDiscount] = useState(0);
+    const [user, setUser] = useState();
     // const [discount, setDiscount] = useState(() => {
     //     const discount = sessionStorage.getItem('discount');
     //     if(discount != null) setPromoCodeValid(true);
     //     return discount !== null ? JSON.parse(discount) : 0;
     // });
 
-    const fetchCart = async () => {
-        const {data: {status: cartStatus, cart, msg: cartMsg}} = await axios(getCartItems);
+    const fetchCart = async (userId) => {
+        const {data: {status: cartStatus, cart, msg: cartMsg}} = await axios(`${getCartItems}/${userId}`);
         const {data: {status: menuStatus, menu, msg: menuMsg}} = await axios(getMenu);
-        if(!cartStatus)
-        {
-            toast.error(`${cartMsg}`, toastOptions);
-        }
-        else if(!menuStatus)
-        {
-            toast.error(`${menuMsg}`, toastOptions);
-        }
+        if(!cartStatus) toast.error(`${cartMsg}`, toastOptions);
+        else if(!menuStatus) toast.error(`${menuMsg}`, toastOptions);
         else
         {
-            // const {data: {menu}} = await axios(getMenu);
-            // console.log(menu);
-            // console.log(cart);
+            console.log(menu, cart);
             const arr = [];
-            let index = 0;
-            menu.forEach((item) => {
-                if(index < cart.length && item._id === cart[index]._id)
-                {
-                    arr.push({...item, quantity: cart[index].quantity});
-                    ++index;
-                }
+            cart.forEach((cartItem) => {
+                const menuItem = menu.find(i => i._id === cartItem._id);
+                arr.push({...menuItem, ...cartItem});
             });
+
+            // let index = 0;
+            // menu.forEach((item) => {
+            //     if(index < cart.length && item._id === cart[index]._id)
+            //     {
+            //         arr.push({...item, quantity: cart[index].quantity});
+            //         ++index;
+            //     }
+            // });
             // console.log(arr);
             setCart(arr);
         }
     };
 
     useEffect(() => {
-        fetchCart();
-        // console.log(cart);
+        const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
+        if(!foodUser)
+        {
+            navigate('/login');
+        }
+        setUser(foodUser);
+        fetchCart(foodUser.userId);
     }, []);
 
     useEffect(() => {
@@ -82,10 +85,10 @@ function Cart()
 
     async function handleRemove(_id)
     {
-        const {data: {status, msg}} = await axios.delete(`${removeCartItem}/${_id}`);
+        const {data: {status, msg}} = await axios.delete(`${removeCartItem}/${_id}/${user.userId}`);
         if(status)
         {
-            fetchCart();
+            fetchCart(user.userId);
         }
         else
         {
