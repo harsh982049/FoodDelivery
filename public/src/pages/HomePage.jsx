@@ -417,9 +417,9 @@ const Container = styled.div`
                     transform: scale(1.1); /* Scale up the image slightly */
                     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow effect */
                 }
-                .selected
+                &.selected
                 {
-                    border: 1px solid black;
+                    border: 8px solid #00ffff;
                 }
             }
         }
