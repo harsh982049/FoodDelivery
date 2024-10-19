@@ -29,6 +29,25 @@ function HomePage()
     const [menu, setMenu] = useState([]); // Food menu items
     const [user, setUser] = useState();
     const [selectedCuisine, setSelectedCuisine] = useState('');
+
+    // async function convertToBase64(file) {
+    //     const fileReader = new FileReader();
+    //     return new Promise((resolve, reject) => {
+    //         fileReader.onloadend = () => resolve(fileReader.result);
+    //         fileReader.onerror = (error) => reject(error);
+    //         fileReader.readAsDataURL(file);  // This works with Blob
+    //     });
+    // }
+
+    // const downloadTextFile = (base64Array) => {
+    //     const element = document.createElement("a");
+    //     const file = new Blob([JSON.stringify(base64Array, null, 2)], {type: 'text/plain'}); // Create a Blob with text content
+    //     element.href = URL.createObjectURL(file);
+    //     element.download = "base64Images.txt";  // File name
+    //     document.body.appendChild(element);  // Append the element to the DOM
+    //     element.click();  // Programmatically click the link to trigger the download
+    //     document.body.removeChild(element);  // Remove the element after downloading
+    // };
     
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
@@ -40,8 +59,34 @@ function HomePage()
         const fetchMenu = async () => {
             try
             {
+                // console.log(images);
                 const {data} = await axios(getMenu);
-                if(data.status) setMenu(data.menu);
+                if(data.status)
+                {
+                    // const {menu} = data;
+                    // let i = 0;
+                    // const arr = [];
+                    // try {
+                    //     // Fetch and convert each image
+                    //     for (const imageUrl of importedImages) {
+                    //         const response = await fetch(imageUrl);
+                    //         const blob = await response.blob(); // Get the image as a Blob
+                    //         const base64 = await convertToBase64(blob); // Convert Blob to Base64
+                    //         arr.push({
+                    //             name: menu[i].name,
+                    //             image: base64,
+                    //             price: menu[i].price,
+                    //             description: menu[i].description,
+                    //             category: menu[i++].category
+                    //         });
+                    //     }
+                    //     // console.log("Base64 Images:", arr);  // Now this contains the base64 strings of all images
+                    //     downloadTextFile(arr);
+                    // } catch (error) {
+                    //     toast.error("Failed to convert images to base64", toastOptions);
+                    // }
+                    setMenu(data.menu);
+                }
                 else toast.error(`${data.msg}`, toastOptions);
             }
             catch(error)
@@ -50,6 +95,25 @@ function HomePage()
             }
         };
         fetchMenu();
+
+        // const fetchAndConvertImagesToBase64 = async () => {
+        //     const arr = [];
+        //     try {
+        //         // Fetch and convert each image
+        //         for (const imageUrl of importedImages) {
+        //             const response = await fetch(imageUrl);
+        //             const blob = await response.blob(); // Get the image as a Blob
+        //             const base64 = await convertToBase64(blob); // Convert Blob to Base64
+        //             arr.push(base64);
+        //         }
+        //         // console.log("Base64 Images:", arr);  // Now this contains the base64 strings of all images
+        //         downloadTextFile(arr);
+        //     } catch (error) {
+        //         toast.error("Failed to convert images to base64", toastOptions);
+        //     }
+        // };
+        // fetchAndConvertImagesToBase64();
+
         initializeList(foodUser);
         Cookies.set("username", foodUser.username, {expires: 7}); // Expires in 7 days
         Cookies.set("email", foodUser.email, {expires: 7});
@@ -159,7 +223,7 @@ function HomePage()
 
         return (
             <StyledCard key={_id}>
-                <Card.Img variant="top" src={foodImages.get(item.image)} />
+                <Card.Img variant="top" src={item.image}/>
                 <Card.Body>
                     <Card.Title>{item.name}</Card.Title>
                     <Card.Text>{item.description}</Card.Text>
@@ -201,11 +265,11 @@ function HomePage()
                                 <button>View Menu</button>
                             </AnchorLink>
                         </div>
-                        <p style={{ marginTop: "2rem", fontSize: "1.5rem", fontWeight: "bold" }}>Explore Our Menu</p>
-                        <p style={{ marginTop: "1rem" }}>Choose from a diverse menu featuring a delectable array of dishes.</p>
+                        <p style={{marginTop: "2rem", fontSize: "1.5rem", fontWeight: "bold"}}>Explore Our Menu</p>
+                        <p style={{marginTop: "1rem"}}>Choose from a diverse menu featuring a delectable array of dishes.</p>
                         <div className='cuisine-nav'>{displayCuisine()}</div>
-                        <hr style={{ marginTop: "3rem" }} />
-                        <section id='menu' className='menu'>
+                        {/* <hr style={{marginTop: "3rem", marginBottom: "0.5rem"}}/> */}
+                        <section style={{marginTop: "3rem"}} id='menu' className='menu'>
                             {menuContainer}
                         </section>
                     </>
