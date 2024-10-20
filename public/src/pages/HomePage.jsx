@@ -7,7 +7,7 @@ import axios from 'axios';
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import BackgroundFood from "../utils/frontend_assets/header_img.png";
 import {menu_list} from '../utils/frontend_assets/assets';
-import {getMenu, getMenuLength, getCartItems, increaseCartItem, decreaseCartItem} from '../utils/APIroutes';
+import {getMenu, getCartItems, increaseCartItem, decreaseCartItem} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';

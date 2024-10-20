@@ -29,7 +29,7 @@ function Login()
         if(data.status)
         {
             localStorage.setItem('food-app-admin', JSON.stringify(data.admin));
-            navigate('/admin-orders');
+            navigate('/admin');
         }
         else
         {
@@ -51,13 +51,9 @@ function Login()
     useEffect(() => {
         if(localStorage.getItem('food-app-admin'))
         {
-            navigate('/admin-orders');
+            navigate('/admin');
         }
     }, [navigate]);
-
-    const handleAdminRegister = () => {
-        navigate('/adminRegister');
-    };
 
     const handleUserLogin = () => {
         navigate('/login');
@@ -92,7 +88,6 @@ function Login()
                     {errors.password && touched.password && (<p className="error">{errors.password}</p>)}
                     <div className='buttons'>
                         <button disabled={isSubmitting} type="submit" className='submit-btn'>Submit</button>
-                        <button className='register-btn' onClick={handleAdminRegister}>New Admin</button>
                         <button className='register-btn' onClick={handleUserLogin}>User Login</button>
                     </div>
                 </form>

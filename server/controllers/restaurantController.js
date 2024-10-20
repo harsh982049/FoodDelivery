@@ -137,4 +137,39 @@ const removeCartItem = async (req, res, next) => {
     }
 };
 
-module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, getMenuLength};
+const removeMenuItem = async (req, res, next) => {
+    try
+    {
+        const {id} = req.params;
+        const menuItem = await Menu.findOneAndDelete({_id: id});
+        if(!menuItem)
+        {
+            return res.json({status: false, msg: 'Cannot remove the particular item from menu. Please try again.'});
+        }
+        return res.json({status: true});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+const addToMenu = async (req, res, next) => {
+    try
+    {
+        const {productName: name, productDescription: description, productCategory: category, productPrice: price, productImage: image} = req.body;
+        // console.log(req.body);
+        const menuItem = await Menu.create({name, description, category, price, image});
+        if(!menuItem)
+        {
+            return res.json({status: false, msg: 'Cannot add particular item to menu. Please try again.'});
+        }
+        return res.json({status: true, msg: 'Food Item added successfully'});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeMenuItem, addToMenu};

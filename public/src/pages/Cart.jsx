@@ -58,7 +58,7 @@ function Cart()
         }
         setUser(foodUser);
         fetchCart(foodUser.userId);
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         const newSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);

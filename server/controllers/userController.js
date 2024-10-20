@@ -160,48 +160,4 @@ const adminLogin = async (req, res, next) => {
     }
 };
 
-const adminRegister = async (req, res, next) => {
-    try
-    {
-        const {adminName, email, password} = req.body;
-        // console.log(adminName, email, password);
-        const checkAdminName = await Admin.findOne({adminName});
-        if(checkAdminName)
-        {
-            return res.json({status: false, msg: 'Admin with this name is already used'});
-        }
-        const checkEmail = await Admin.findOne({email});
-        if(checkEmail)
-        {
-            return res.json({status: false, msg: 'Email is already used'});
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // const token = jwt.sign(
-        //     {
-        //         adminId: admin._id,
-        //         username: admin.adminName,
-        //         email: admin.email
-        //     },
-        //     JWT_SECRET,
-        //     { expiresIn: '1h' } // Token expires in 1 hour
-        // );
-
-        const admin = await Admin.create({adminName, email, password: hashedPassword});
-        // delete user.password;
-        const adminObject = {
-            adminName: admin.adminName,
-            email: admin.email,
-            adminId: admin._id,
-            // token
-        };
-        // console.log(userObject);
-        return res.json({status: true, admin: adminObject});
-    }
-    catch(error)
-    {
-        next(error);
-    }
-};
-
-module.exports = {login, register, digestAuth, tokenAuth, getProtectedData, adminLogin, adminRegister};
+module.exports = {login, register, digestAuth, tokenAuth, getProtectedData, adminLogin};
