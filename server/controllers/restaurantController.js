@@ -1,5 +1,6 @@
 const Menu = require('../model/menuModel');
 const Cart = require('../model/cartModel');
+const Order = require('../model/orderModel');
 
 const getMenu = async (req, res, next) => {
     try
@@ -137,6 +138,23 @@ const removeCartItem = async (req, res, next) => {
     }
 };
 
+const removeUserCart = async (req, res, next) => {
+    try
+    {
+        const {userId} = req.params;
+        const cartItems = await Cart.deleteMany({userId});
+        if(cartItems.length === 0)
+        {
+            return res.json({status: false, msg: 'Order cannot be placed right now. Please try again.'});
+        }
+        return res.json({status: true});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
 const removeMenuItem = async (req, res, next) => {
     try
     {
@@ -172,4 +190,39 @@ const addToMenu = async (req, res, next) => {
     }
 };
 
-module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeMenuItem, addToMenu};
+const addOrder = async (req, res, next) => {
+    try
+    {
+        const {cart, total, userId} = req.body;
+        const order = await Order.create({userId, orders: cart, totalPrice: total});
+        if(!order)
+        {
+            return res.json({status: false, msg: 'Cannot place order right now. Please try again.'});
+        }
+        return res.json({status: true, msg: 'Order placed successfully'});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+const fetchOrders = async (req, res, next) => {
+    try
+    {
+        const {id: userId} = req.params;
+        const orderItems = await Order.find({userId});
+        // console.log(orderItems);
+        if(orderItems.length == 0)
+        {
+            return res.json({status: false, msg: 'Cannot display order history right now. Please try again.'});
+        }
+        return res.json({status: true, orderItems});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchOrders};

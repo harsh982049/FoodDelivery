@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import styled from 'styled-components';
+import axios from 'axios';
+import {addOrder, removeUserCart} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -51,11 +53,16 @@ const useIndexedDB = (dbName, storeName) => {
     return {saveToDB, getFromDB};
 };
 
-function Order() {
+function Order()
+{
     const navigate = useNavigate();
+    const location = useLocation();
     const {saveToDB, getFromDB} = useIndexedDB('deliveryDB', 'deliveryInfo');
     const [userId, setUserId] = useState(JSON.parse(localStorage.getItem('food-app-user')).userId);
 
+    const {newCart: cart} = location.state;
+    // console.log(cart);
+    
     // State for user delivery info
     const [userInfo, setUserInfo] = useState({
         firstName: '',
@@ -97,19 +104,29 @@ function Order() {
         setUserInfo({...userInfo, [name]: value});
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         // Save user information to IndexedDB
         saveToDB({...userInfo, userId}); // Add userId to the data
         toast.success('Delivery information saved!', toastOptions);
-        navigate('/cart');
+
+        const total = subtotal + shippingCost - discount;
+        const {data: {status, msg}} = await axios.post(addOrder, {cart, total, userId});
+        if(status)
+        {
+            const {data: {status: deleteCartStatus, msg: deleteCartMsg}} = await axios.delete(`${removeUserCart}/${userId}`);
+            if(deleteCartStatus) navigate('/myorders');
+            else toast.error(`${deleteCartMsg}`, toastOptions);
+        }
+        else toast.error(`${msg}`, toastOptions);
+        
     };
 
     return (
         <>
             <Container>
-                <Navbar />
+                <Navbar/>
                 <ContentWrapper>
                     <FormSection>
                         <h2>Delivery Information</h2>

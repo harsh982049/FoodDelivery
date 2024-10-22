@@ -97,7 +97,16 @@ function Cart()
         sessionStorage.setItem('subtotal', JSON.stringify(subtotal));
         sessionStorage.setItem('shippingCost', JSON.stringify(shippingCost));
         sessionStorage.setItem('discount', JSON.stringify(discount));
-        navigate('/order');
+
+        const newCart = [];
+        cart.forEach((item) => {
+            newCart.push({
+                name: item.name,
+                quantity: item.quantity
+            });
+        });
+        // console.log(newCart);
+        navigate('/order', {state: {newCart}});
     };
 
     return (

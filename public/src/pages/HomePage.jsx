@@ -186,7 +186,7 @@ function HomePage()
     return (
         <>
             <Container>
-                <Navbar />
+                <Navbar/>
                 {itemsList && (
                     <>
                         <div className='top-content'>

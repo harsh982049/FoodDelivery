@@ -10,6 +10,7 @@ import AdminNavbar from "./components/AdminNavbar";
 import MenuItems from "./pages/MenuItems"; 
 import AddToMenu from "./pages/AddToMenu"; 
 import Orders from "./pages/Orders"; 
+import MyOrders from "./pages/MyOrders";
 
 function App()
 {
@@ -27,6 +28,7 @@ function App()
 				<Route path="/register" element={<Register/>}/>
 				<Route path="/cart" element={<Cart/>}/>
 				<Route path="/order" element={<Order/>}/>
+				<Route path="/myorders" element={<MyOrders/>}/>
 			</Routes>
 		</BrowserRouter>
 	);
