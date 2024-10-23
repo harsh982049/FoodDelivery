@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const JWT_SECRET = 'your_jwt_secret_key'; 
+const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET; 
 
 const digestAuth = (req, res, next) => {
     const { authorization } = req.headers;
@@ -40,10 +40,10 @@ const digestAuth = (req, res, next) => {
 // Token-based Authentication Middleware (JWT)
 const tokenAuth = (req, res, next) => {
     const token = req.headers['authorization'];
-    if (!token) return res.status(403).json({ status: false, msg: 'No token provided' });
+    if(!token) return res.status(403).json({status: false, msg: 'No token provided'});
 
     jwt.verify(token.split(' ')[1], JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(500).json({ status: false, msg: 'Failed to authenticate token' });
+        if(err) return res.status(500).json({status: false, msg: 'Failed to authenticate token'});
 
         // Save the decoded user info to request for use in other routes
         req.user = decoded;
@@ -67,6 +67,14 @@ const login = async (req, res, next) => {
         {
             return res.json({status: false,  msg: 'Password is invalid'});
         }
+
+        const token = req.headers['authorization'];
+        if(!token) return res.status(403).json({status: false, msg: 'No token provided'});
+
+        jwt.verify(token.split(' ')[1], JWT_SECRET, (err) => {
+            if(err) return res.status(500).json({status: false, msg: 'Failed to authenticate token'});
+        });
+
         const userObject = {
             username: user.username,
             email: user.email,
@@ -97,18 +105,17 @@ const register = async (req, res, next) => {
             return res.json({status: false, msg: 'Email is already used'});
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-
+        const user = await User.create({username, email, password: hashedPassword});
+        
         const token = jwt.sign(
             {
                 userId: user._id,
                 username: user.username,
                 email: user.email
             },
-            JWT_SECRET,
-            { expiresIn: '1h' } // Token expires in 1 hour
+            JWT_SECRET
         );
 
-        const user = await User.create({username, email, password: hashedPassword});
         // delete user.password;
         const userObject = {
             username: user.username,
@@ -160,4 +167,4 @@ const adminLogin = async (req, res, next) => {
     }
 };
 
-module.exports = {login, register, digestAuth, tokenAuth, getProtectedData, adminLogin};
+module.exports = {login, register, digestAuth, tokenAuth, adminLogin};

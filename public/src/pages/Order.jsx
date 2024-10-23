@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import styled from 'styled-components';
-import axios from 'axios';
-import {addOrder, removeUserCart} from '../utils/APIroutes';
+// import axios from 'axios';
+// import {addOrder, removeUserCart} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -58,7 +58,7 @@ function Order()
     const navigate = useNavigate();
     const location = useLocation();
     const {saveToDB, getFromDB} = useIndexedDB('deliveryDB', 'deliveryInfo');
-    const [userId, setUserId] = useState(JSON.parse(localStorage.getItem('food-app-user')).userId);
+    const [userId, setUserId] = useState('');
 
     const {newCart: cart} = location.state;
     // console.log(cart);
@@ -91,6 +91,10 @@ function Order()
 
     // On component mount, fetch delivery info if it exists
     useEffect(() => {
+        const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
+        if(!foodUser) navigate('/login');
+        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        setUserId(foodUser.userId);
         getFromDB(userId, (data) => {
             if(data)
             {

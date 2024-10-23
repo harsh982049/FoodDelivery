@@ -207,13 +207,30 @@ const addOrder = async (req, res, next) => {
     }
 };
 
+const fetchUserOrder = async (req, res, next) => {
+    try
+    {
+        const {id: userId} = req.params;
+        const orderItems = await Order.find({userId});
+        // const orderItems = await Order.find({userId});
+        // console.log(orderItems);
+        if(orderItems.length == 0)
+        {
+            return res.json({status: false, msg: 'Cannot display order history right now. Please try again.'});
+        }
+        return res.json({status: true, orderItems});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
 const fetchOrders = async (req, res, next) => {
     try
     {
         const {id: userId} = req.params;
-        let orderItems;
-        if(!userId) orderItems = await Order.find({});
-        else orderItems = await Order.find({userId});
+        const orderItems = await Order.find({});
         // const orderItems = await Order.find({userId});
         // console.log(orderItems);
         if(orderItems.length == 0)
@@ -248,4 +265,4 @@ const updateOrderStatus = async (req, res, next) => {
     }
 };
 
-module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchOrders, updateOrderStatus};
+module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchUserOrder, fetchOrders, updateOrderStatus};

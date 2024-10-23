@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {login, register, tokenAuth, getProtectedData, adminLogin} = require('../controllers/userController');
+const {login, register, tokenAuth, adminLogin} = require('../controllers/userController');
 
 router.post('/login', login);
 router.post('/register', register);
 router.post('/adminLogin', adminLogin);
 
-router.get('/protected', tokenAuth, getProtectedData);
+router.get('/protected', tokenAuth);
 
 module.exports = router;

@@ -19,9 +19,16 @@ function PaymentGateway()
 {
     const navigate = useNavigate();
     const location = useLocation();
-    const userId = JSON.parse(localStorage.getItem('food-app-user')).userId;
+    const [userId, setUserId] = useState('');
     const {cart, total, shippingCost, discount, userInfo} = location.state;
-    console.log(cart);
+    // console.log(cart);
+    
+    useEffect(() => {
+        const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
+        if(!foodUser)  navigate('/login');
+        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        setUserId(foodUser.userId);
+    }, []);
 
     const [formData, setFormData] = useState({
         email: '',

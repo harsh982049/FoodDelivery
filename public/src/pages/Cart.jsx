@@ -30,7 +30,7 @@ function Cart()
     });
     const [promoCodeValid, setPromoCodeValid] = useState(false);
     const [discount, setDiscount] = useState(0);
-    const [user, setUser] = useState();
+    const [user, setUser] = useState('');
 
     const fetchCart = async (userId) => {
         const {data: {status: cartStatus, cart, msg: cartMsg}} = await axios(`${getCartItems}/${userId}`);
@@ -52,10 +52,9 @@ function Cart()
 
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
-        if(!foodUser)
-        {
-            navigate('/login');
-        }
+        // console.log(foodUser);
+        if(!foodUser) navigate('/login');
+        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
         setUser(foodUser);
         fetchCart(foodUser.userId);
     }, [navigate]);

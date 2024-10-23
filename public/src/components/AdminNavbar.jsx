@@ -7,10 +7,13 @@ import order_icon from "../utils/admin_assets/order_icon.png";
 function Navbar()
 {
     const navigate = useNavigate();
-    const [admin, setAdmin] = useState(JSON.parse(localStorage.getItem('food-app-admin')));
+    const [admin, setAdmin] = useState();
 
     useEffect(() => {
-        if(!localStorage.getItem('food-app-admin')) navigate('/adminLogin');
+        const administrator = JSON.parse(localStorage.getItem('food-app-admin'));
+        if(!administrator) navigate('/adminLogin');
+        else if(localStorage.getItem('food-app-user')) localStorage.removeItem('food-app-user');
+        else setAdmin(administrator);
     }, [navigate]);
 
     function handleLogin()

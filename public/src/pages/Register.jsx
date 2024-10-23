@@ -7,6 +7,7 @@ import {registerSchema} from "../schema/index";
 import {registerRoute} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 const toastOptions = {
     position: "bottom-right",
@@ -27,6 +28,7 @@ function Register()
         const {data} = await axios.post(registerRoute, {username, email, password});
         if(data.status)
         {
+            Cookies.set(`${data.user.userId}`, data.user.token);
             localStorage.setItem('food-app-user', JSON.stringify(data.user));
             navigate('/');
         }

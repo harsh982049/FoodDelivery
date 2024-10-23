@@ -13,4 +13,5 @@ export const removeMenuItem = `${host}/api/restaurant/removeMenuItem`;
 export const addToMenu = `${host}/api/restaurant/addToMenu`;
 export const addOrder = `${host}/api/restaurant/addOrder`;
 export const fetchOrders = `${host}/api/restaurant/fetchOrders`;
+export const fetchUserOrder = `${host}/api/restaurant/fetchUserOrder`;
 export const updateOrderStatus = `${host}/api/restaurant/updateOrderStatus`;

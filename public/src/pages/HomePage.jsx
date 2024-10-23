@@ -27,15 +27,13 @@ function HomePage()
     const navigate = useNavigate();
     const [itemsList, setItemsList] = useState([]); // Cart items with quantities
     const [menu, setMenu] = useState([]); // Food menu items
-    const [user, setUser] = useState();
+    const [user, setUser] = useState('');
     const [selectedCuisine, setSelectedCuisine] = useState('');
 
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
-        if(!foodUser)
-        {
-            navigate('/login');
-        }
+        if(!foodUser) navigate('/login');
+        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
         setUser(foodUser);
         const fetchMenu = async () => {
             try

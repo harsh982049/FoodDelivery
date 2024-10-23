@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import styled from "styled-components";
 import axios from 'axios';
 import parcel_icon from "../utils/frontend_assets/parcel_icon.png";
-import {fetchOrders} from '../utils/APIroutes';
+import {fetchUserOrder} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,18 +19,23 @@ const toastOptions =
 
 function MyOrders()
 {
+    const navigate = useNavigate();
     const [myOrders, setMyOrders] = useState([]);
-    const userId = JSON.parse(localStorage.getItem('food-app-user')).userId;
+    const [userId, setUserId] = useState('');
     // console.log(myOrders);
 
-    const getOrders = async () => {
-        const {data: {status, orderItems, msg}} = await axios(`${fetchOrders}/${userId}`);
+    const getOrders = async (userId) => {
+        const {data: {status, orderItems, msg}} = await axios(`${fetchUserOrder}/${userId}`);
         if(status) setMyOrders(orderItems);
         else toast.error(`${msg}`, toastOptions);
     };
 
     useEffect(() => {
-        getOrders();
+        const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
+        if(!foodUser) navigate('/login');
+        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        setUserId(foodUser.userId);
+        getOrders(foodUser.userId);
     }, []);
 
     return (
