@@ -45,25 +45,31 @@ function MyOrders()
                 <Content>
                     <h2>My Orders</h2>
                     <OrderList>
-                        {myOrders.length > 0 ? myOrders.map((order) => (
-                            <OrderCard key={order._id}>
-                                <OrderImage>
-                                    <img src={parcel_icon} alt="Package"/>
-                                </OrderImage>
-                                <OrderDetails>
-                                    <div className='order-items'>{order.orders.map(item => `${item.name} x ${item.quantity}`).join(', ')}</div>
-                                    <OrderPrice>${order.totalPrice}</OrderPrice>
-                                    {/* <OrderInfo> */}
+                        {myOrders.length > 0 ? (
+                            myOrders.map((order) => (
+                                <OrderCard key={order._id}>
+                                    <OrderImage>
+                                        <img src={parcel_icon} alt="Package"/>
+                                    </OrderImage>
+                                    <OrderDetails>
+                                        <div className='order-items'>{order.orders.map(item => `${item.name} x ${item.quantity}`).join(', ')}</div>
+                                        <OrderPrice>${order.totalPrice}</OrderPrice>
                                         <div>Items: {order.orders.length}</div>
                                         <OrderStatus>
                                             <StatusDot/>
                                             {order.orderStatus}
                                         </OrderStatus>
-                                    {/* </OrderInfo> */}
-                                </OrderDetails>
-                                {/* <TrackButton>Track Order</TrackButton> */}
-                            </OrderCard>
-                        )) : <p>No orders found.</p>}
+                                    </OrderDetails>
+                                </OrderCard>
+                            ))
+                        ) : (
+                            <EmptyOrderMessage>
+                                <h1>No orders placed yet</h1>
+                                {/* <p>It looks like you haven't added any items to your cart yet.</p> */}
+                                <BrowseLink onClick={() => navigate('/')}>Browse Menu</BrowseLink>
+                            </EmptyOrderMessage>
+                            // <NoOrdersMessage>No orders placed yet.</NoOrdersMessage>
+                        )}
                     </OrderList>
                 </Content>
             </Container>
@@ -182,6 +188,41 @@ const TrackButton = styled.button`
     &:hover {
         background-color: #FF5757;
         color: white;
+    }
+`;
+
+const EmptyOrderMessage = styled.div`
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+    h1 {
+        font-size: 2rem;
+        color: #fc5c23;
+    }
+
+    /* p {
+        font-size: 1.2rem;
+        color: #555;
+    } */
+`;
+
+const BrowseLink = styled.button`
+    background-color: #fc5c23;
+    color: white;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+
+    &:hover {
+        background-color: #db511f;
     }
 `;
 

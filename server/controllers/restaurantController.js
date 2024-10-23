@@ -22,22 +22,6 @@ const getMenu = async (req, res, next) => {
     }
 };
 
-const getMenuLength = async (req, res, next) => {
-    try
-    {
-        const length = await Menu.countDocuments({}, {hint: "_id_"});;
-        if(!length)
-        {
-            return res.json({status: false,  msg: 'Could not fetch menu right now. Please try again.'});
-        }
-        return res.json({status: true, length});
-    }
-    catch(error)
-    {
-        next(error);
-    }
-};
-
 const getCartItems = async (req, res, next) => {
     try
     {
@@ -214,7 +198,7 @@ const fetchUserOrder = async (req, res, next) => {
         const orderItems = await Order.find({userId});
         // const orderItems = await Order.find({userId});
         // console.log(orderItems);
-        if(orderItems.length == 0)
+        if(!orderItems)
         {
             return res.json({status: false, msg: 'Cannot display order history right now. Please try again.'});
         }
@@ -229,7 +213,7 @@ const fetchUserOrder = async (req, res, next) => {
 const fetchOrders = async (req, res, next) => {
     try
     {
-        const {id: userId} = req.params;
+        // const {id: userId} = req.params;
         const orderItems = await Order.find({});
         // const orderItems = await Order.find({userId});
         // console.log(orderItems);

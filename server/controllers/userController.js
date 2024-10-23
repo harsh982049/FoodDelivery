@@ -39,14 +39,21 @@ const digestAuth = (req, res, next) => {
 
 // Token-based Authentication Middleware (JWT)
 const tokenAuth = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if(!token) return res.status(403).json({status: false, msg: 'No token provided'});
+    // console.log('Reached tokenAuth');
+    const authHeader = req.headers['authorization'];
+    const token = authHeader?.split(' ')[1];
 
-    jwt.verify(token.split(' ')[1], JWT_SECRET, (err, decoded) => {
-        if(err) return res.status(500).json({status: false, msg: 'Failed to authenticate token'});
-
+    // console.log(token);
+    if(!token)
+    {
+        return res.json({status: false, msg: 'No token provided'});
+    }
+    
+    jwt.verify(token, JWT_SECRET, (err) => {
+        if(err) return res.json({status: false, msg: 'Failed to authenticate token'});
+        // console.log('Failed to authenticate');
         // Save the decoded user info to request for use in other routes
-        req.user = decoded;
+        // req.user = decoded;
         next();
     });
 }
@@ -68,19 +75,34 @@ const login = async (req, res, next) => {
             return res.json({status: false,  msg: 'Password is invalid'});
         }
 
-        const token = req.headers['authorization'];
-        if(!token) return res.status(403).json({status: false, msg: 'No token provided'});
+        // Extract the token from the header
+        // const token = req.headers['authorization'].split(' ')[1];
+        // console.log(token);
+        // if(token == undefined)
+        // {
+        //     console.log("No token provided.");
+        //     return res.status(403).json({status: false, msg: 'No token provided'});
+        // } 
+        
+        // let flag = false;
+        // jwt.verify(token.split(' ')[1], JWT_SECRET, (err) => {
+        //     if(err)
+        //     {
+        //         console.log("Failed to authenticate token.");
+        //         flag = true;
+        //     }
+        //     // console.log("Token successfully verified.");
+        // });
 
-        jwt.verify(token.split(' ')[1], JWT_SECRET, (err) => {
-            if(err) return res.status(500).json({status: false, msg: 'Failed to authenticate token'});
-        });
-
+        // if(flag) return res.status(500).json({status: false, msg: 'Failed to authenticate token'});
         const userObject = {
             username: user.username,
             email: user.email,
             userId: user._id
         };
+        console.log("Returning success response with user data.");
         // delete user.password;
+        console.log('Reached end');
         return res.json({status: true, user: userObject});
     }
     catch(error)
@@ -106,7 +128,7 @@ const register = async (req, res, next) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({username, email, password: hashedPassword});
-        
+
         const token = jwt.sign(
             {
                 userId: user._id,

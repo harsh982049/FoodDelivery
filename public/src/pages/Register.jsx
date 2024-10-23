@@ -28,7 +28,7 @@ function Register()
         const {data} = await axios.post(registerRoute, {username, email, password});
         if(data.status)
         {
-            Cookies.set(`${data.user.userId}`, data.user.token);
+            Cookies.set(`${username}`, data.user.token);
             localStorage.setItem('food-app-user', JSON.stringify(data.user));
             navigate('/');
         }

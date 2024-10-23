@@ -113,70 +113,82 @@ function Cart()
         <>
             <Container>
                 <Navbar/>
-                <CartTable>
-                    <thead>
-                        <tr>
-                            <th>Items</th>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cart.map((item) => (
-                            <tr key={item._id}>
-                                <td>
-                                    <ItemImage src={item.image} alt={item.name}/>
-                                </td>
-                                <td>{item.name}</td>
-                                <td>${item.price}</td>
-                                <td>{item.quantity}</td>
-                                <td>${calculateTotal(item.price, item.quantity)}</td>
-                                <td>
-                                    <RemoveButton onClick={() => handleRemove(item._id)}>x</RemoveButton>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </CartTable>
+                {cart.length === 0 ? (
+                    <EmptyCartMessage>
+                        <h1>Your Cart is Empty!</h1>
+                        <p>It looks like you haven't added any items to your cart yet.</p>
+                        <BrowseLink onClick={() => navigate('/')}>Browse Menu</BrowseLink>
+                    </EmptyCartMessage>
+                ) : (
+                    <>
+                        <CartTable>
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th>Title</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cart.map((item) => (
+                                    <tr key={item._id}>
+                                        <td>
+                                            <ItemImage src={item.image} alt={item.name}/>
+                                        </td>
+                                        <td>{item.name}</td>
+                                        <td>${item.price}</td>
+                                        <td>{item.quantity}</td>
+                                        <td>${calculateTotal(item.price, item.quantity)}</td>
+                                        <td>
+                                            <RemoveButton onClick={() => handleRemove(item._id)}>x</RemoveButton>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </CartTable>
 
-                <TotalsAndPromo>
-                    <CartTotals>
-                        <h2>Cart Totals</h2>
-                        <TotalRow>
-                            <span>Subtotal:</span>
-                            <span>${subtotal.toFixed(2)}</span>
-                        </TotalRow>
-                        <TotalRow>
-                            <span>Shipping:</span>
-                            <span>${shippingCost.toFixed(2)}</span>
-                        </TotalRow>
-                        {promoCodeValid && <TotalRow>
-                            <span>Discount:</span>
-                            <span>- ${discount.toFixed(2)}</span>
-                        </TotalRow>}
-                        <TotalRow total>
-                            <span>Total:</span>
-                            <span>${(subtotal + shippingCost - discount).toFixed(2)}</span>
-                        </TotalRow>
-                        <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
-                    </CartTotals>
+                        <TotalsAndPromo>
+                            <CartTotals>
+                                <h2>Cart Totals</h2>
+                                <TotalRow>
+                                    <span>Subtotal:</span>
+                                    <span>${subtotal.toFixed(2)}</span>
+                                </TotalRow>
+                                <TotalRow>
+                                    <span>Shipping:</span>
+                                    <span>${shippingCost.toFixed(2)}</span>
+                                </TotalRow>
+                                {promoCodeValid && (
+                                    <TotalRow>
+                                        <span>Discount:</span>
+                                        <span>- ${discount.toFixed(2)}</span>
+                                    </TotalRow>
+                                )}
+                                <TotalRow total>
+                                    <span>Total:</span>
+                                    <span>${(subtotal + shippingCost - discount).toFixed(2)}</span>
+                                </TotalRow>
+                                <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
+                            </CartTotals>
 
-                    <PromoSection>
-                        <p>If you have a promo code, Enter it here</p>
-                        <div className="input-and-submit">
-                            <PromoInput
-                                type="text"
-                                value={promoCode}
-                                onChange={(e) => setPromoCode(e.target.value)}
-                                placeholder="Promo Code"
-                            />
-                            <PromoButton onClick={handlePromoCodeSubmit}>Submit</PromoButton>
-                        </div>
-                    </PromoSection>
-                </TotalsAndPromo>
+                            <PromoSection>
+                                <p>If you have a promo code, Enter it here</p>
+                                <div className="input-and-submit">
+                                    <PromoInput
+                                        type="text"
+                                        value={promoCode}
+                                        onChange={(e) => setPromoCode(e.target.value)}
+                                        placeholder="Promo Code"
+                                    />
+                                    <PromoButton onClick={handlePromoCodeSubmit}>Submit</PromoButton>
+                                </div>
+                            </PromoSection>
+                        </TotalsAndPromo>
+                    </>
+                )}
             </Container>
             <ToastContainer/>
         </>
@@ -304,6 +316,41 @@ const PromoButton = styled.button`
 
     &:hover {
         background-color: #333;
+    }
+`;
+
+const EmptyCartMessage = styled.div`
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+    h1 {
+        font-size: 2rem;
+        color: #fc5c23;
+    }
+
+    p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+`;
+
+const BrowseLink = styled.button`
+    background-color: #fc5c23;
+    color: white;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+
+    &:hover {
+        background-color: #db511f;
     }
 `;
 
