@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchOrders} = require('../controllers/restaurantController');
+const {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchOrders, updateOrderStatus} = require('../controllers/restaurantController');
 
 router.get('/getMenu', getMenu);
 router.get('/getCartItems/:userId', getCartItems);
@@ -12,5 +12,7 @@ router.delete('/removeMenuItem/:id', removeMenuItem);
 router.post('/addToMenu', addToMenu);
 router.post('/addOrder', addOrder);
 router.get('/fetchOrders/:id', fetchOrders);
+router.get('/fetchOrders', fetchOrders);
+router.patch('/updateOrderStatus/:id', updateOrderStatus);
 
 module.exports = router;

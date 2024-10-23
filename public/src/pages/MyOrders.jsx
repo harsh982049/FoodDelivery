@@ -21,7 +21,7 @@ function MyOrders()
 {
     const [myOrders, setMyOrders] = useState([]);
     const userId = JSON.parse(localStorage.getItem('food-app-user')).userId;
-    console.log(myOrders);
+    // console.log(myOrders);
 
     const getOrders = async () => {
         const {data: {status, orderItems, msg}} = await axios(`${fetchOrders}/${userId}`);
@@ -162,6 +162,7 @@ const StatusDot = styled.span`
     background-color: red;
     border-radius: 50%;
     margin-right: 5px;
+    margin-top: 0.15rem;
 `;
 
 const TrackButton = styled.button`

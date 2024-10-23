@@ -193,8 +193,8 @@ const addToMenu = async (req, res, next) => {
 const addOrder = async (req, res, next) => {
     try
     {
-        const {cart, total, userId} = req.body;
-        const order = await Order.create({userId, orders: cart, totalPrice: total});
+        const {cart, total, userId, userInfo} = req.body;
+        const order = await Order.create({userId, orders: cart, totalPrice: total, userInfo});
         if(!order)
         {
             return res.json({status: false, msg: 'Cannot place order right now. Please try again.'});
@@ -211,7 +211,10 @@ const fetchOrders = async (req, res, next) => {
     try
     {
         const {id: userId} = req.params;
-        const orderItems = await Order.find({userId});
+        let orderItems;
+        if(!userId) orderItems = await Order.find({});
+        else orderItems = await Order.find({userId});
+        // const orderItems = await Order.find({userId});
         // console.log(orderItems);
         if(orderItems.length == 0)
         {
@@ -225,4 +228,24 @@ const fetchOrders = async (req, res, next) => {
     }
 };
 
-module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchOrders};
+const updateOrderStatus = async (req, res, next) => {
+    try
+    {
+        const {id: _id} = req.params;
+        const {value: orderStatus} = req.body;
+        // console.log(orderStatus);
+        const updatedOrder = await Order.findByIdAndUpdate({_id}, {orderStatus}, {new: true});
+        // console.log(updatedOrder);
+        if(!updatedOrder)
+        {
+            return res.json({status: false, msg: 'Cannot update order status right now. Please try again.'});
+        }
+        return res.json({status: true, updatedOrder});
+    }
+    catch(error)
+    {
+        next(error);
+    }
+};
+
+module.exports = {getMenu, getCartItems, increaseCartItem, decreaseCartItem, removeCartItem, removeUserCart, removeMenuItem, addToMenu, addOrder, fetchOrders, updateOrderStatus};

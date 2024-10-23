@@ -18,6 +18,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: 'Food Processing',
         required: true
+    },
+    userInfo: {
+        type: Object,
+        required: true
     }
 });
 

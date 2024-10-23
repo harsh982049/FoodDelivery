@@ -6,6 +6,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import PaymentGateway from "./pages/PaymentGateway";
 import AdminNavbar from "./components/AdminNavbar";
 import MenuItems from "./pages/MenuItems"; 
 import AddToMenu from "./pages/AddToMenu"; 
@@ -29,6 +30,7 @@ function App()
 				<Route path="/cart" element={<Cart/>}/>
 				<Route path="/order" element={<Order/>}/>
 				<Route path="/myorders" element={<MyOrders/>}/>
+				<Route path="/payment" element={<PaymentGateway/>}/>
 			</Routes>
 		</BrowserRouter>
 	);

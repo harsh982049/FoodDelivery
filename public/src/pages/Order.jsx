@@ -110,17 +110,8 @@ function Order()
         // Save user information to IndexedDB
         saveToDB({...userInfo, userId}); // Add userId to the data
         toast.success('Delivery information saved!', toastOptions);
-
-        const total = subtotal + shippingCost - discount;
-        const {data: {status, msg}} = await axios.post(addOrder, {cart, total, userId});
-        if(status)
-        {
-            const {data: {status: deleteCartStatus, msg: deleteCartMsg}} = await axios.delete(`${removeUserCart}/${userId}`);
-            if(deleteCartStatus) navigate('/myorders');
-            else toast.error(`${deleteCartMsg}`, toastOptions);
-        }
-        else toast.error(`${msg}`, toastOptions);
-        
+        const total = (subtotal + shippingCost - discount).toFixed(2);
+        navigate('/payment', {state: {cart, total, shippingCost, discount, userInfo}});
     };
 
     return (

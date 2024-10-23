@@ -102,7 +102,8 @@ function Cart()
         cart.forEach((item) => {
             newCart.push({
                 name: item.name,
-                quantity: item.quantity
+                quantity: item.quantity,
+                price: item.price
             });
         });
         // console.log(newCart);
