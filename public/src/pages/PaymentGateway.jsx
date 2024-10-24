@@ -21,6 +21,7 @@ function PaymentGateway()
     const location = useLocation();
     const [userId, setUserId] = useState('');
     const {cart, total, shippingCost, discount, userInfo} = location.state;
+    axios.defaults.withCredentials = true;
     // console.log(cart);
     
     useEffect(() => {

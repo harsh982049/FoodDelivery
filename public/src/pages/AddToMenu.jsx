@@ -26,7 +26,8 @@ const initialState = {
 
 function AddToMenu()
 {
-	const [formData, setFormData] = useState(initialState);	
+	const [formData, setFormData] = useState(initialState);
+    axios.defaults.withCredentials = true;
 
     const handleInputChange = (e) => {
         let {name, value} = e.target;

@@ -17,6 +17,7 @@ const toastOptions =
 function Admin()
 {
     const navigate = useNavigate();
+    axios.defaults.withCredentials = true;
 
     useEffect(() => {
         const admin = JSON.parse(localStorage.getItem('food-app-admin'));
