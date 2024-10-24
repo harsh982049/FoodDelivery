@@ -17,7 +17,7 @@ function setCorsHeaders(req, res, next) {
 
 app.use(cors(
     {
-        origin: ['https://food-delivery-frontend-self.vercel.app/api/auth'],
+        origin: ['https://food-delivery-frontend-self.vercel.app'],
         methods: ["POST", "GET", "PATCH", "DELETE"],
         credentials: true
     }
