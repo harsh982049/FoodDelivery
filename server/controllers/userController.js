@@ -4,38 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET; 
-
-const digestAuth = (req, res, next) => {
-    const { authorization } = req.headers;
-    if (!authorization || !authorization.startsWith('Digest ')) {
-        return res.status(401).json({ status: false, msg: 'Digest Authorization required' });
-    }
-
-    const digestToken = authorization.split(' ')[1];
-    const { username, password } = req.body;
-
-    User.findOne({ username }).then(user => {
-        if (!user) {
-            return res.status(401).json({ status: false, msg: 'Invalid username or password' });
-        }
-
-        bcrypt.compare(password, user.password, (err, match) => {
-            if (err || !match) {
-                return res.status(401).json({ status: false, msg: 'Invalid password' });
-            }
-
-            // Generate digest token (using username and password)
-            const digest = crypto.createHash('md5').update(`${username}:${password}`).digest('hex');
-            if (digestToken === digest) {
-                // Proceed if digest is correct
-                next();
-            } else {
-                return res.status(401).json({ status: false, msg: 'Invalid Digest token' });
-            }
-        });
-    }).catch(error => next(error));
-};
+const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const ADMIN_JWT_SECRET = process.env.ADMIN_TOKEN_SECRET;
 
 // Token-based Authentication Middleware (JWT)
 const tokenAuth = (req, res, next) => {
@@ -58,6 +28,17 @@ const tokenAuth = (req, res, next) => {
     });
 }
 
+const adminTokenAuth = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader?.split(' ')[1];
+    // console.log(token);
+
+    jwt.verify(token, ADMIN_JWT_SECRET, (err) => {
+        if(err) return res.json({status: false, msg: 'Failed to authenticate token'});
+        next();
+    });
+}
+
 const login = async (req, res, next) => {
     try
     {
@@ -75,34 +56,11 @@ const login = async (req, res, next) => {
             return res.json({status: false,  msg: 'Password is invalid'});
         }
 
-        // Extract the token from the header
-        // const token = req.headers['authorization'].split(' ')[1];
-        // console.log(token);
-        // if(token == undefined)
-        // {
-        //     console.log("No token provided.");
-        //     return res.status(403).json({status: false, msg: 'No token provided'});
-        // } 
-        
-        // let flag = false;
-        // jwt.verify(token.split(' ')[1], JWT_SECRET, (err) => {
-        //     if(err)
-        //     {
-        //         console.log("Failed to authenticate token.");
-        //         flag = true;
-        //     }
-        //     // console.log("Token successfully verified.");
-        // });
-
-        // if(flag) return res.status(500).json({status: false, msg: 'Failed to authenticate token'});
         const userObject = {
             username: user.username,
             email: user.email,
             userId: user._id
         };
-        console.log("Returning success response with user data.");
-        // delete user.password;
-        console.log('Reached end');
         return res.json({status: true, user: userObject});
     }
     catch(error)
@@ -129,22 +87,21 @@ const register = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({username, email, password: hashedPassword});
 
-        const token = jwt.sign(
-            {
-                userId: user._id,
-                username: user.username,
-                email: user.email
-            },
-            JWT_SECRET
-        );
+        // const token = jwt.sign(
+        //     {
+        //         userId: user._id,
+        //         username: user.username,
+        //         email: user.email
+        //     },
+        //     JWT_SECRET
+        // );
 
-        // delete user.password;
         const userObject = {
             username: user.username,
             email: user.email,
             userId: user._id,
-            token
         };
+
         // console.log(userObject);
         return res.json({status: true, user: userObject});
     }
@@ -175,11 +132,23 @@ const adminLogin = async (req, res, next) => {
         {
             return res.json({status: false,  msg: 'Password is invalid'});
         }
+
+        // const token = jwt.sign(
+        //     {
+        //         adminId: admin._id,
+        //         adminName: admin.adminName,
+        //         email: admin.email
+        //     },
+        //     ADMIN_JWT_SECRET
+        // );
+        // console.log(token);
+        
         const adminObject = {
             username: admin.adminName,
             email: admin.email,
-            adminId: admin._id
+            adminId: admin._id,
         };
+        // console.log('Verified admin token');
         // delete user.password;
         return res.json({status: true, admin: adminObject});
     }
@@ -189,4 +158,4 @@ const adminLogin = async (req, res, next) => {
     }
 };
 
-module.exports = {login, register, digestAuth, tokenAuth, adminLogin};
+module.exports = {login, register, tokenAuth, adminTokenAuth, adminLogin};

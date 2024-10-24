@@ -12,7 +12,7 @@ function Navbar()
     useEffect(() => {
         const administrator = JSON.parse(localStorage.getItem('food-app-admin'));
         if(!administrator) navigate('/adminLogin');
-        else if(localStorage.getItem('food-app-user')) localStorage.removeItem('food-app-user');
+        // else if(localStorage.getItem('food-app-user')) localStorage.removeItem('food-app-user');
         else setAdmin(administrator);
     }, [navigate]);
 

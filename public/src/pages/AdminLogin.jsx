@@ -7,6 +7,7 @@ import {loginSchema} from "../schema/index";
 import {adminLoginRoute} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import Cookies from 'js-cookie';
 
 const toastOptions = {
     position: "bottom-right",
@@ -25,9 +26,19 @@ function Login()
         // console.log(values);
         // console.log(actions);
         const {username: adminName, password} = values;
+        // const token = Cookies.get(adminName);
+        // console.log(token);
+        // if(!token)
+        // {
+        //     toast.error('No token provided', toastOptions);
+        //     return;
+        // }
+        // {headers: {'Authorization': `Bearer ${token}`}}
         const {data} = await axios.post(adminLoginRoute, {adminName, password});
         if(data.status)
         {
+            // const {token} = data.admin;
+            // Cookies.set(adminName, token);
             localStorage.setItem('food-app-admin', JSON.stringify(data.admin));
             navigate('/admin');
         }

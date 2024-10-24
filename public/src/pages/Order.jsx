@@ -93,7 +93,7 @@ function Order()
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
         if(!foodUser) navigate('/login');
-        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        // if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
         setUserId(foodUser.userId);
         getFromDB(userId, (data) => {
             if(data)

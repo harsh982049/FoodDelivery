@@ -25,8 +25,8 @@ function PaymentGateway()
     
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
-        if(!foodUser)  navigate('/login');
-        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        if(!foodUser) navigate('/login');
+        // if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
         setUserId(foodUser.userId);
     }, []);
 

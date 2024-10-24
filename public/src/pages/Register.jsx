@@ -7,7 +7,7 @@ import {registerSchema} from "../schema/index";
 import {registerRoute} from '../utils/APIroutes';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 const toastOptions = {
     position: "bottom-right",
@@ -22,13 +22,11 @@ function Register()
     const navigate = useNavigate();
 
     const onSubmit = async (values, actions) => {
-        // console.log(values);
-        // console.log(actions);
         const {username, email, password} = values;
         const {data} = await axios.post(registerRoute, {username, email, password});
         if(data.status)
         {
-            Cookies.set(`${username}`, data.user.token);
+            // Cookies.set(`${username}`, data.user.token);
             localStorage.setItem('food-app-user', JSON.stringify(data.user));
             navigate('/');
         }
@@ -36,8 +34,6 @@ function Register()
         {
             toast.error(`${data.msg}`, toastOptions);
         }
-        // await new Promise((resolve) => setTimeout(resolve, 1000));
-        // actions.resetForm();
     };
 
     const {values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit} = useFormik({

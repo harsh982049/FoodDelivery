@@ -21,7 +21,7 @@ function MyOrders()
 {
     const navigate = useNavigate();
     const [myOrders, setMyOrders] = useState([]);
-    const [userId, setUserId] = useState('');
+    // const [userId, setUserId] = useState('');
     // console.log(myOrders);
 
     const getOrders = async (userId) => {
@@ -33,8 +33,8 @@ function MyOrders()
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
         if(!foodUser) navigate('/login');
-        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
-        setUserId(foodUser.userId);
+        // if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        // setUserId(foodUser.userId);
         getOrders(foodUser.userId);
     }, []);
 
@@ -151,13 +151,13 @@ const OrderPrice = styled.div`
     font-weight: bold;
 `;
 
-const OrderInfo = styled.div`
-    background-color: red;
-    display: flex;
-    justify-content: space-between;
-    gap: 5rem;
-    /* margin-top: 10px; */
-`;
+// const OrderInfo = styled.div`
+//     background-color: red;
+//     display: flex;
+//     justify-content: space-between;
+//     gap: 5rem;
+//     /* margin-top: 10px; */
+// `;
 
 const OrderStatus = styled.div`
     /* background-color: blue; */
@@ -176,20 +176,20 @@ const StatusDot = styled.span`
     margin-top: 0.15rem;
 `;
 
-const TrackButton = styled.button`
-    background-color: #FDEDED;
-    border: 1px solid #FDEDED;
-    border-radius: 4px;
-    padding: 10px 20px;
-    color: #FF5757;
-    cursor: pointer;
-    transition: 0.3s;
+// const TrackButton = styled.button`
+//     background-color: #FDEDED;
+//     border: 1px solid #FDEDED;
+//     border-radius: 4px;
+//     padding: 10px 20px;
+//     color: #FF5757;
+//     cursor: pointer;
+//     transition: 0.3s;
 
-    &:hover {
-        background-color: #FF5757;
-        color: white;
-    }
-`;
+//     &:hover {
+//         background-color: #FF5757;
+//         color: white;
+//     }
+// `;
 
 const EmptyOrderMessage = styled.div`
     text-align: center;

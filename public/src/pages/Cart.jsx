@@ -54,7 +54,7 @@ function Cart()
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));
         // console.log(foodUser);
         if(!foodUser) navigate('/login');
-        if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
+        // if(localStorage.getItem('food-app-admin')) localStorage.removeItem('food-app-admin');
         setUser(foodUser);
         fetchCart(foodUser.userId);
     }, [navigate]);
