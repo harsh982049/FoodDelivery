@@ -12,6 +12,7 @@ import MenuItems from "./pages/MenuItems";
 import AddToMenu from "./pages/AddToMenu"; 
 import Orders from "./pages/Orders"; 
 import MyOrders from "./pages/MyOrders";
+import Admin from "./pages/Admin";
 
 function App()
 {
@@ -20,6 +21,7 @@ function App()
 			<Routes>
 				<Route path="/" element={<HomePage/>}/>
 				<Route path="/admin" element={<AdminNavbar/>}>
+					<Route index element={<Admin/>}/>
 					<Route path="orders" element={<Orders/>}/>
 					<Route path="menuItems" element={<MenuItems/>}/>
 					<Route path="addToMenu" element={<AddToMenu/>}/>

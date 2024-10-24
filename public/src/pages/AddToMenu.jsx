@@ -42,15 +42,27 @@ function AddToMenu()
         setFormData({...formData, productImage: base64});
     };
 
+    const validateForm = () => {
+        const {productImage} = formData;
+        if (!productImage) {
+            toast.error("Image of food item is required", toastOptions);
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-		const {data: {status, msg}} = await axios.post(addToMenu, formData);
-		if(status)
-		{
-			toast.success(`${msg}`, toastOptions);
-			setFormData(initialState);
-		}
-		else toast.error(`${msg}`, toastOptions);
+		if(validateForm())
+        {
+            const {data: {status, msg}} = await axios.post(addToMenu, formData);
+            if(status)
+            {
+                toast.success(`${msg}`, toastOptions);
+                setFormData(initialState);
+            }
+            else toast.error(`${msg}`, toastOptions);
+        }
     };
 
 	async function convertToBase64(file)
