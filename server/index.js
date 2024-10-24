@@ -15,14 +15,8 @@ function setCorsHeaders(req, res, next) {
   next();
 }
 
-app.use(cors(
-    {
-        origin: ['https://food-delivery-frontend-self.vercel.app'],
-        methods: ["POST", "GET", "PATCH", "DELETE"],
-        credentials: true
-    }
-));
-app.use(setCorsHeaders);
+app.use(cors());
+// app.use(setCorsHeaders);
 app.use(express.json({limit: '50mb'}));
 // app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
