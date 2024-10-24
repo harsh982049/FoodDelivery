@@ -1,4 +1,4 @@
-const host = "http://localhost:5000";
+const host = "https://food-delivery-api-five.vercel.app";
 
 export const loginRoute = `${host}/api/auth/login`;
 export const adminLoginRoute = `${host}/api/auth/adminLogin`;
