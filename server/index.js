@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors(
     {
-        origin: ['https://food-delivery-frontend-self.vercel.app'],
+        origin: ['https://food-delivery-frontend-self.vercel.app/api/auth'],
         methods: ["POST", "GET", "PATCH", "DELETE"],
         credentials: true
     }
