@@ -8,13 +8,15 @@ const restaurantRoutes = require('./routes/restaurantRoutes');
 
 const port = process.env.PORT || 3000;
 
-app.use(cors(
-    {
-        origin: ['https://food-delivery-frontend-self.vercel.app'],
-        methods: ["POST", "GET", "PATCH", "DELETE"],
-        credentials: true
-    }
-));
+function setCorsHeaders(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+}
+
+app.use(cors());
+// app.use(setCorsHeaders);
 app.use(express.json({limit: '50mb'}));
 // app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
