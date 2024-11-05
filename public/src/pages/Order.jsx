@@ -59,7 +59,7 @@ function Order()
     const location = useLocation();
     const {saveToDB, getFromDB} = useIndexedDB('deliveryDB', 'deliveryInfo');
     const [userId, setUserId] = useState('');
-    axios.defaults.withCredentials = true;
+    // axios.defaults.withCredentials = true;
 
     const {newCart: cart} = location.state;
     // console.log(cart);

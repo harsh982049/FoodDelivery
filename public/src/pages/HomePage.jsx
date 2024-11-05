@@ -29,7 +29,7 @@ function HomePage()
     const [menu, setMenu] = useState([]); // Food menu items
     const [user, setUser] = useState('');
     const [selectedCuisine, setSelectedCuisine] = useState('');
-    axios.defaults.withCredentials = true;
+    // axios.defaults.withCredentials = true;
 
     useEffect(() => {
         const foodUser = JSON.parse(localStorage.getItem('food-app-user'));

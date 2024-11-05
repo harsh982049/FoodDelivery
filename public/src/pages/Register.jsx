@@ -20,7 +20,7 @@ const toastOptions = {
 function Register()
 {
     const navigate = useNavigate();
-    axios.defaults.withCredentials = true;
+    // axios.defaults.withCredentials = true;
 
     const onSubmit = async (values, actions) => {
         const {username, email, password} = values;
